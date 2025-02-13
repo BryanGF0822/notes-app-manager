@@ -7,68 +7,94 @@
 
 import SwiftUI
 
+struct NCard: Identifiable {
+    let id = UUID()
+    let title: String
+    let text: String
+    let type: NCardType
+}
+
+enum NCardType {
+    case small
+    case medium
+}
+
 struct ContentView: View {
-    var body: some View {
-//        Text("Nunca pares de aprender")
-//            .font(.system(size: 50))
-//            .lineLimit(2)
-//            .multilineTextAlignment(.trailing)
-//            .bold()
-//            .underline()
-//        
-//        Circle()
-//            .background(Color.blue)
-//            .padding()
-//            .background(Color.yellow)
-//            .frame(width: 200, height: 200)
-//        
-//        Rectangle()
-//            .frame(width: 200, height: 200)
-//            .foregroundStyle(Color.yellow)
-//            .cornerRadius(60)
-//            .opacity(0.5)
-//        
-//        Ellipse()
-//            .stroke(lineWidth: 5)
-//            .frame(width: 200, height: 400)
-//            .foregroundStyle(Color.blue)
-//            .rotationEffect(.degrees(30))
+    
+    let cards: [NCard] = [
+        NCard(title: "Card 1", text: "Texto del card 1", type: .small),
+        NCard(title: "Card 2", text: "Texto del card 2", type: .medium),
+        NCard(title: "Card 3", text: "Texto del card 3", type: .small),
+        NCard(title: "Card 4", text: "Texto del card 4", type: .small)
+    ]
         
-        ScrollView {
-            ForEach(0..<5) {index in
-                Button("Click here!") {
-                    // what the button does
+    @ViewBuilder
+    func CardSmallView(card: NCard) -> some View {
+        // MARK: Card pequeña
+        HStack {
+            Text(card.title)
+                .font(.headline)
+                .lineLimit(2)
+                .frame(width: 120)
+                .padding(8)
+                .background(Color.cyan.opacity(0.2))
+                .cornerRadius(8)
+            Text(card.text)
+                .font(.subheadline)
+                .lineLimit(2)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity)
+            Image(systemName: "heart")
+                .foregroundStyle(Color.red)
+        }
+        .padding()
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(16)
+        .listRowSeparator(.hidden)
+    }
+    
+    @ViewBuilder
+    func CardMediumView(card: NCard) -> some View {
+        // MARK: Card mediana
+        VStack {
+            HStack(alignment: .top) {
+                Spacer()
+                Image(systemName: "heart")
+                    .foregroundStyle(Color.red)
+            }
+            Text(card.title)
+                .font(.title2)
+                .lineLimit(2)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 30)
+                .background(Color.cyan.opacity(0.2))
+                .cornerRadius(8)
+            Text(card.text)
+                .font(.body)
+                .lineLimit(2)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity)
+        }
+        .frame(height: 150)
+        .padding()
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(16)
+        .listRowSeparator(.hidden)
+    }
+    
+    var body: some View {
+        
+        List {
+            ForEach (cards) { card in
+                if card.type == .small {
+                    CardSmallView(card: card)
+                } else if card.type == .medium {
+                    CardMediumView(card: card)
                 }
-                .buttonStyle(.borderedProminent)
-                .tint(.red)
-                .controlSize(.large)
-                .buttonBorderShape(.capsule)
-                .disabled(false)
+                
             }
         }
-        .frame(height:250)
-        .background(.brown)
-        
-        Button("Click here!") {
-            // what the button does
-        }
-        .buttonStyle(.borderedProminent)
-        .tint(.red)
-        .controlSize(.large)
-        .buttonBorderShape(.capsule)
-        .disabled(false)
-        
-//        Button(action: {
-//            // What the button does
-//        }) {
-//            Label("Profile", systemImage: "person.circle")
-//        }
-//        // All built-in modifiers can be applied in this case
-//        .buttonStyle(.borderedProminent)
-//        .tint(.gray)
-//        .controlSize(.large)
-//        .buttonBorderShape(.capsule)
-//        .disabled(false)
+        .listStyle(.plain)
     }
 }
 
