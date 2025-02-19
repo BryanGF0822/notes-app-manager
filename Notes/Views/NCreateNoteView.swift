@@ -14,10 +14,14 @@ struct NCreateNoteView: View {
     @State var size: NCardType = .small
     @State var isFavorite: Bool = false
     
+    var onNoteCreated: ((NCard) -> Void)?
+    
     func onTap() {
         // Crear nota
         let card = NCard(title: title, text: text, type: size, isFavorite: isFavorite)
         print("Esta es tu nueva card: \(card)")
+        
+        onNoteCreated?(card)
     }
     
     var body: some View {
