@@ -8,18 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
-    
-    let cards: [NCard] = [
-        NCard(title: "Card 1", text: "Texto del card 1", type: .small, isFavorite: false),
-        NCard(title: "Card 2", text: "Texto del card 2", type: .medium, isFavorite: false),
-        NCard(title: "Card 3", text: "Texto del card 3", type: .small, isFavorite: false),
-        NCard(title: "Card 4", text: "Texto del card 4", type: .small, isFavorite: false)
-    ]
         
-    
+    @StateObject var appInfo = AppInfo()
     
     var body: some View {
+        TabView {
         NListView()
+                .tabItem {
+                    Label("Home", systemImage: "house.fill")
+                }
+            NListView(forFavorities: true)
+                .tabItem {
+                    Label("Favorite", systemImage: "heart.fill")
+                }
+        }
+            .environmentObject(appInfo)
     }
 }
 

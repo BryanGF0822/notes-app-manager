@@ -9,16 +9,13 @@ import SwiftUI
 
 struct NCreateNoteView: View {
     
-    @State private var title: String = ""
-    @State private var text: String = ""
-    @State var size: NCardType = .small
-    @State var isFavorite: Bool = false
+    @StateObject var viewModel: NCreateNoteViewModel = NCreateNoteViewModel()
     
     var onNoteCreated: ((NCard) -> Void)?
     
     func onTap() {
         // Crear nota
-        let card = NCard(title: title, text: text, type: size, isFavorite: isFavorite)
+        let card = viewModel.createNote()
         print("Esta es tu nueva card: \(card)")
         
         onNoteCreated?(card)
@@ -31,28 +28,33 @@ struct NCreateNoteView: View {
                     .font(.largeTitle)
                     .bold()
                     .padding(.bottom, 10)
-                TextField("Titulo", text: $title)
-                    .font(.headline)
-                    .padding()
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(8)
-                TextEditor(text: $text)
-                    .scrollContentBackground(.hidden)
-                    .font(.body)
-                    .frame(height: 150)
-                    .padding()
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(8)
+//                TextField("Titulo", text: $viewModel.title)
+//                    .font(.headline)
+//                    .padding()
+//                    .background(Color.gray.opacity(0.1))
+//                    .cornerRadius(8)
+                // Ahora usamos el componente reutilizable
+                NTextField(placeholder: "Titulo", text: $viewModel.title)
+                
+//                TextEditor(text: $viewModel.text)
+//                    .scrollContentBackground(.hidden)
+//                    .font(.body)
+//                    .frame(height: 150)
+//                    .padding()
+//                    .background(Color.gray.opacity(0.1))
+//                    .cornerRadius(8)
+                // Utilizamos el componente reutilizable
+                NTextEditor(text: $viewModel.text)
                 HStack{
                     Text("Tamaño:")
                     Spacer()
-                    Picker("Tamaños", selection: $size) {
+                    Picker("Tamaños", selection: $viewModel.size) {
                         Text("Pequeño").tag(NCardType.small)
                         Text("Mediano").tag(NCardType.medium)
                     }
                 }
                 .padding()
-                Toggle("Marcar como favorito", isOn: $isFavorite)
+                Toggle("Marcar como favorito", isOn: $viewModel.isFavorite)
                     .padding()
                 
                 Button {

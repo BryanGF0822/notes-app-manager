@@ -6,12 +6,12 @@
 //
 import Foundation
 
-struct NCard: Identifiable {
+struct NCard: Identifiable, Hashable {
     let id = UUID()
     let title: String
     let text: String
     let type: NCardType
-    let isFavorite: Bool
+    var isFavorite: Bool
 }
 
 enum NCardType {

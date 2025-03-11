@@ -9,40 +9,56 @@ import SwiftUI
 
 struct NListView: View {
     
-    let cards: [NCard] = [
-        NCard(title: "Card 1", text: "Texto del card 1", type: .small, isFavorite: false),
-        NCard(title: "Card 2", text: "Texto del card 2", type: .medium, isFavorite: false),
-        NCard(title: "Card 3", text: "Texto del card 3", type: .small, isFavorite: false),
-        NCard(title: "Card 4", text: "Texto del card 4", type: .small, isFavorite: false)
-    ]
+    @EnvironmentObject var appInfo: AppInfo
     
     @State var showSheet: Bool = false
+    @State var showDetails: Bool = false
+    @State var selectedCard: NCard?
+    
+    var forFavorities: Bool = false
     
     var body: some View {
-        List {
-            ForEach (cards) { card in
-                NCardView(card: card)
-            }
-        }
-        .listStyle(.plain)
-        .sheet(isPresented: $showSheet) {
-            NCreateNoteView() { card in
-                print(card)
-                showSheet = false
-            }
-        }
-        .overlay {
-            VStack {
-                Spacer()
-                Button("Create Note") {
-                    showSheet = true
+        NavigationStack {
+            List {
+                ForEach (forFavorities ? appInfo.favorities : appInfo.cards) { card in
+                    NCardView(card: card) {
+                        appInfo.toggleFavorite(card: card)
+                    }
+                        .onTapGesture {
+                            selectedCard = card
+                            showDetails = true
+                        }
                 }
             }
-            
+            .listStyle(.plain)
+            .sheet(isPresented: $showSheet) {
+                NCreateNoteView() { card in
+                    print(card)
+                    // agregar card a nuestro appInfo
+                    appInfo.createNote(card: card)
+                    showSheet = false
+                }
+            }
+            .navigationDestination(isPresented: $showDetails) {
+                if let selectedCard {
+                    NDetailView(card: selectedCard)
+                }
+            }
+            .navigationTitle("Notes")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(Color.cyan.opacity(0.4), for: .navigationBar)
+            .toolbar {
+                Button {
+                    showSheet = true
+                } label: {
+                    Image(systemName: "plus")
+                }
+            }
         }
     }
 }
 
 #Preview {
     NListView()
+        .environmentObject(AppInfo())
 }
