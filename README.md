@@ -11,9 +11,9 @@ SwiftNotes is a simple and efficient iOS application built with Swift and SwiftU
 - *Swift + SwiftUI* - UI development   
  
 ## 📱 Screenshots
-<img src="https://github.com/user-attachments/assets/10ef4e43-3cd6-4bb8-a06f-85c6de844818" alt="Home" width="300">
-<img src="https://github.com/user-attachments/assets/58604a1b-0102-473e-b838-a50a24be46d5" alt="Home" width="300">
-<img src="https://github.com/user-attachments/assets/26cadde2-d524-497a-a0a0-0b92383135ca" alt="Home" width="300">
+<img src="https://github.com/user-attachments/assets/10ef4e43-3cd6-4bb8-a06f-85c6de844818" alt="Home" width="250">
+<img src="https://github.com/user-attachments/assets/58604a1b-0102-473e-b838-a50a24be46d5" alt="Home" width="250">
+<img src="https://github.com/user-attachments/assets/26cadde2-d524-497a-a0a0-0b92383135ca" alt="Home" width="250">
 
 ## 🔧 Installation  
 1. Clone the repository:  
